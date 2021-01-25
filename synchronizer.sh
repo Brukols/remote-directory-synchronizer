@@ -2,6 +2,7 @@
 
 . .sync.env
 
+# shellcheck disable=SC2095
 inotifywait -r -m -e close_write --format '%w%f' ./ | while read MODFILE
 do
     file="$(basename "${MODFILE}")"
@@ -20,6 +21,8 @@ do
         continue
     fi
     newPath="${MODFILE:1}"
+    directory="$(dirname "${MODFILE:1}")"
     echo "Copy $MODFILE to $REMOTE_DIRECTORY$newPath"
+    ssh $USERNAME@$HOST mkdir -p $REMOTE_DIRECTORY$directory
     rsync -zv "$MODFILE" $USERNAME@$HOST:$REMOTE_DIRECTORY$newPath
 done
