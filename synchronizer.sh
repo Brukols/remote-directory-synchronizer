@@ -25,7 +25,7 @@ do
 
     while IFS= read -r line
     do
-        if [[ "$file" == $line ]]; then
+        if [[ "$MODFILE" == $line ]]; then
             echo "Skipping file $MODFILE"
             isIgnored=1
             break
